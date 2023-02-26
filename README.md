@@ -6,7 +6,7 @@ Simple web-based wallet with ethers.js
 
 Just open index.html in your browser.
 
-## TODO
+## DONE 
 
-- Add support for Polygon networks
-- Add Functionality to sign a message using wallet. reference: https://docs.ethers.io/v5/api/signer/#Signer-signMessage
+- Added support for Polygon networks
+- Added Functionality to sign a message using wallet. reference: https://docs.ethers.io/v5/api/signer/#Signer-signMessage
