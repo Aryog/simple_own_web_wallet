@@ -76,7 +76,7 @@ const createWallet = async (passcode, mnemonic) => {
   if (wallet) return { wallet: null, encryptedWallet: wallet };
   if (mnemonic) wallet = ethers.Wallet.fromMnemonic(mnemonic);
   else wallet = ethers.Wallet.createRandom();
-  console.log({wallet})
+  console.log({ wallet })
   const { address, privateKey } = wallet;
   const { phrase } = wallet.mnemonic;
   const encWallet = await wallet.encrypt(passcode.toString());
@@ -90,7 +90,7 @@ const createWallet = async (passcode, mnemonic) => {
 const fetchBalance = (address) => {
   const currentNetwork = getCurrentNetwork();
   const network = getNetworkByName(currentNetwork);
-  console.log({network})
+  console.log({ network })
   const { url, name } = network;
   $('#' + name).attr('checked', true);
 
@@ -100,7 +100,7 @@ const fetchBalance = (address) => {
   provider
     .getBalance(address)
     .then((balance) => {
-      console.log({balance});
+      console.log({ balance });
       const myBalance = ethers.utils.formatEther(balance);
       console.log(myBalance);
       $('#myBalance').html(myBalance);
@@ -143,7 +143,7 @@ const loadFromPrivateKey = async () => {
   const network = getNetworkByName();
   const { url } = network;
   const provider = new ethers.providers.JsonRpcProvider(url);
-  
+
   wallet = wallet.connect(provider);
   return wallet;
 };
@@ -161,3 +161,20 @@ const togglePasscodeModal = () => {
 const toggleMnemonicRestoreModal = () => {
   $('#mdlMnemonicRestore').modal('toggle');
 };
+
+const signMessage = async () => {
+  try {
+    const messageToBeSigned = $('#inputMsg').val();
+    const wallet = await ethers.Wallet.createRandom();
+    const currentNetwork = getCurrentNetwork();
+    const network = getNetworkByName(currentNetwork);
+    const { url } = network;
+    const provider = new ethers.providers.JsonRpcProvider(url);
+    const signer = wallet.connect(provider);
+    const signedMessage = await signer.signMessage(messageToBeSigned);
+    console.log(signedMessage);
+    $('#signedMessage').text(signedMessage);
+  } catch (error) {
+    console.log(error);
+  }
+}
