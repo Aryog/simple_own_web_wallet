@@ -140,7 +140,8 @@ const loadFromPrivateKey = async () => {
   const privateKey = getPrivatekey();
   let wallet = await new ethers.Wallet(privateKey);
   if (!wallet) throw Error('Wallet not found');
-  const network = getNetworkByName();
+  const currentNetwork = getCurrentNetwork();
+  const network = getNetworkByName(currentNetwork);
   const { url } = network;
   const provider = new ethers.providers.JsonRpcProvider(url);
 
